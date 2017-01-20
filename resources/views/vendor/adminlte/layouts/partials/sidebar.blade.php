@@ -34,7 +34,7 @@
         <ul class="sidebar-menu">
             <li class="header">{{ trans('adminlte_lang::message.header') }}</li>
             <!-- Optionally, you can add icons to the links -->
-            <li class="active"><a href="{{ url('home') }}"><i class='fa fa-link'></i> <span>{{ trans('adminlte_lang::message.home') }}</span></a></li>
+            <li <?php if(Request::path() == 'home') echo 'class="active"'; ?>><a href="{{ url('home') }}"><i class='fa fa-link'></i> <span>{{ trans('adminlte_lang::message.home') }}</span></a></li>
             <li><a href="#"><i class='fa fa-link'></i> <span>{{ trans('adminlte_lang::message.anotherlink') }}</span></a></li>
             <li class="treeview">
                 <a href="#"><i class='fa fa-link'></i> <span>{{ trans('adminlte_lang::message.multilevel') }}</span> <i class="fa fa-angle-left pull-right"></i></a>
@@ -43,14 +43,20 @@
                     <li><a href="#">{{ trans('adminlte_lang::message.linklevel2') }}</a></li>
                 </ul>
             </li>
-
-            <li class="treeview">
+            <?php
+                $post = $category = $tag = $comment = $art = '';
+               if(Request::is('post*')) $post = $art = 'active';
+               if(Request::is('category*')) $category = $art = 'active';
+               if(Request::is('tag*')) $tag = $art = 'active';
+               if(Request::is('comment*')) $comment = $art = 'active';
+            ?>
+            <li class="treeview {{ $art }}"  >
                 <a href="#"><i class='fa fa-link'></i> <span>文章管理</span> <i class="fa fa-angle-left pull-right"></i></a>
                 <ul class="treeview-menu">
-                    <li><a href="{{route('post.index')}}">文章模块</a></li>
-                    <li><a href="{{route('category.index')}}">类别模块</a></li>
-                    <li><a href="{{route('tag.index')}}">标签模块</a></li>
-                    <li><a href="{{route('comment.index')}}">评论模块</a></li>
+                    <li class="{{ $post }}" ><a href="{{route('post.index')}}">文章模块</a></li>
+                    <li class="{{ $category }}" ><a href="{{route('category.index')}}">类别模块</a></li>
+                    <li class="{{ $tag }}" ><a href="{{route('tag.index')}}">标签模块</a></li>
+                    <li class="{{ $comment }}" ><a href="{{route('comment.index')}}">评论模块</a></li>
                 </ul>
             </li>
             <li class="treeview">

@@ -8,15 +8,12 @@ use Auth;
 
 class CategoryController extends Controller
 {
-
     /**
      * @param Request $request
      * @return string
      */
     public function getLists(Request $request)
     {
-
-
         $limit = $request->input('limit', 10);
         $offset = $request->input('offset', 0);
         $sort = $request->input('sort', 'id');

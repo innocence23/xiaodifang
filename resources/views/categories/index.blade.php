@@ -6,7 +6,13 @@
 
 @section('self-css')
     <!-- Latest compiled and minified CSS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.2/css/select2.min.css" />
+@endsection
+
+@section('contentheader_title')
+    分类管理
+@endsection
+@section('breadcrumb')
+    <li class="active">分类管理</li>
 @endsection
 
 @section('main-content')
@@ -110,7 +116,6 @@
                 field: 'name',
                 title: '名称',
                 valign: 'middle',
-
                 sortable: true,
             }, {
                 field: 'created_at',
@@ -199,6 +204,7 @@
                     }).then(function successCallback(response) {
                         swal("成功", '', "success");
                         $('#myModal').modal('hide');
+                        $scope.tag.name = '';//清空输入框
                         $("#table").bootstrapTable('refresh');
                     }, function errorCallback(response) {
                         var errorMsg = '';

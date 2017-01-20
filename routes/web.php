@@ -33,7 +33,14 @@ Route::group(['middleware' => 'auth'], function () {
     Route::put('category/{id}', 'CategoryController@disable')->name('category.disable');
     Route::get('category/lists', 'CategoryController@getLists')->name('category.lists');
 
-    Route::resource('tag', 'TagController');
+    Route::get('tag', 'TagController@index')->name('tag.index');
+    Route::post('tag', 'TagController@store')->name('tag.store');
+    Route::get('tag/{id}/edit', 'TagController@edit')->name('tag.edit');
+    Route::post('tag/{id}', 'TagController@update')->name('tag.update');
+    Route::put('tag/{id}', 'TagController@disable')->name('tag.disable');
+    Route::get('tag/lists', 'TagController@getLists')->name('tag.lists');
+
+
     Route::resource('comment', 'CommentController');
 //    Route::resource('user', 'UserController');
 //    Route::resource('role', 'RoleController');
