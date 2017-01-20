@@ -8,14 +8,41 @@ use Auth;
 
 class CategoryController extends Controller
 {
+
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return string
      */
-    public function getLists()
+    public function getLists(Request $request)
     {
-        return Category::all(['id','name','status','created_at']);
+
+
+        $limit = $request->input('limit', 10);
+        $offset = $request->input('offset', 0);
+        $sort = $request->input('sort', 'id');
+        $order = $request->input('order', 'desc');
+        $name = $request->input('name', '');
+        $status = $request->input('status', '');
+        $where = [];
+        if(!empty($name)) {
+            $where[] = ['name', 'like', '%'.$name.'%'];
+        }
+        if(strlen($status) != 0) {
+            $where[] = ['status', '=', $status];
+        }
+        $curpage = ($offset / $limit) + 1;
+
+        \DB::enableQueryLog();
+        //$res = Category::where($where)->orderby($sort, $order)->paginate($limit, $columns = ['*'], $pageName = 'page', $page = null);
+        $res = Category::where($where)->orderby($sort, $order)->paginate($limit, ['*'], 'page', $curpage);
+        //echo  response()->json(\DB::getQueryLog()); die;
+        $total = $res->total();
+        $rows = $res->items();
+        $response = [
+            'total' => $total,
+            'rows' => $rows
+        ];
+        return json_encode($response);
     }
 
     /**
