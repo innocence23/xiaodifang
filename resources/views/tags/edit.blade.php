@@ -29,7 +29,7 @@
                                 <input type="text" class="form-control" name="name"  id="cate-name" required ng-model="tag.name">
                                 <p ng-show="myForm.name.$dirty && myForm.name.$invalid" class="help-block">不能为空</p>
                             </div>
-                            <button type="submit" class="btn btn-primary btn-block" ng-disabled="myForm.name.$invalid">保存</button>
+                            <button type="submit" class="btn btn-primary btn-block" ng-disabled="myForm.$invalid">保存</button>
                         </form>
                     </div>
                 </div>

@@ -22,10 +22,6 @@ Route::group(['middleware' => 'auth'], function () {
 
     //Please do not remove this if you want adminlte:route and adminlte:link commands to works correctly.
     #adminlte_routes
-
-    Route::resource('post', 'PostController');
-
-
     Route::get('category', 'CategoryController@index')->name('category.index');
     Route::post('category', 'CategoryController@store')->name('category.store');
     Route::get('category/{id}/edit', 'CategoryController@edit')->name('category.edit');
@@ -40,6 +36,13 @@ Route::group(['middleware' => 'auth'], function () {
     Route::put('tag/{id}', 'TagController@disable')->name('tag.disable');
     Route::get('tag/lists', 'TagController@getLists')->name('tag.lists');
 
+    Route::get('post', 'PostController@index')->name('post.index');
+    Route::get('post/create', 'PostController@create')->name('post.create');
+    Route::post('post', 'PostController@store')->name('post.store');
+    Route::get('post/{id}/edit', 'PostController@edit')->name('post.edit');
+    Route::post('post/{id}', 'PostController@update')->name('post.update');
+    Route::put('post/{id}', 'PostController@disable')->name('post.disable');
+    Route::get('post/lists', 'PostController@getLists')->name('post.lists');
 
     Route::resource('comment', 'CommentController');
 //    Route::resource('user', 'UserController');

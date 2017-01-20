@@ -9,11 +9,11 @@
 @endsection
 
 @section('contentheader_title')
-    分类管理
+    文章管理
 @endsection
 @section('breadcrumb')
-    <li><a href="{{route('category.index')}}"> 分类管理 </a></li>
-    <li class="active">分类编辑</li>
+    <li><a href="{{route('post.index')}}"> 文章管理 </a></li>
+    <li class="active">文章编辑</li>
 @endsection
 
 @section('main-content')
@@ -21,15 +21,15 @@
         <div class="container-fluid spark-screen" >
             <div class="row">
                 <div class="panel panel-default">
-                    <div class="panel-heading">类别修改</div>
+                    <div class="panel-heading">类别文章</div>
                     <div class="panel-body container-fluid">
                         <form name="myForm" ng-submit="save()" novalidate>
                             <div class="form-group"  ng-class="{ 'has-error' : myForm.name.$dirty && myForm.name.$invalid }">
-                                <label for="cate-name" class="control-label">名称:</label>
-                                <input type="text" class="form-control" name="name"  id="cate-name" required ng-model="category.name">
+                                <label for="post-name" class="control-label">名称:</label>
+                                <input type="text" class="form-control" name="name"  id="post-name" required ng-model="post.name">
                                 <p ng-show="myForm.name.$dirty && myForm.name.$invalid" class="help-block">不能为空</p>
                             </div>
-                            <button type="submit" class="btn btn-primary btn-block" ng-disabled="myForm.$invalid">保存</button>
+                            <button type="submit" class="btn btn-primary btn-block" ng-disabled="myForm.name.$invalid">保存</button>
                         </form>
                     </div>
                 </div>
@@ -42,15 +42,15 @@
     <script>
         angular.module('myModule', [])
             .controller('myController', function ($scope, $http) {
-                $scope.category = {
+                $scope.post = {
                     'id':'{{$model->id}}',
                     'name':'{{$model->name}}',
                 };
                 $scope.save = function () {
                     $http({
-                        url: "{{route('category.update', $model->id)}}",
+                        url: "{{route('post.update', $model->id)}}",
                         method:'POST',
-                        data:{name: $scope.category.name}
+                        data:{name: $scope.post.name}
                     }).then(function successCallback(response) {
                         swal({
                             title: "成功!",
@@ -58,7 +58,7 @@
                             type: "success"
                             }, function(){
                                 $('#myModal').modal('hide');
-                                window.location.href="{{route('category.index')}}";
+                                window.location.href="{{route('post.index')}}";
                             });
                     }, function errorCallback(response) {
                         var errorMsg = '';

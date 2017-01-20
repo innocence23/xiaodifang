@@ -73,7 +73,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-                        <button type="submit" class="btn btn-primary" form="form1" ng-disabled="myForm.name.$invalid">保存</button>
+                        <button type="submit" class="btn btn-primary" form="form1" ng-disabled="myForm.$invalid">保存</button>
                     </div>
                 </div>
             </div>

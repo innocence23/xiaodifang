@@ -29,7 +29,7 @@ class CategoryController extends Controller
         }
         $curpage = ($offset / $limit) + 1;
 
-        \DB::enableQueryLog();
+        //\DB::enableQueryLog();
         //$res = Category::where($where)->orderby($sort, $order)->paginate($limit, $columns = ['*'], $pageName = 'page', $page = null);
         $res = Category::where($where)->orderby($sort, $order)->paginate($limit, ['*'], 'page', $curpage);
         //echo  response()->json(\DB::getQueryLog()); die;
