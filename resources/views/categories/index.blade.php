@@ -139,12 +139,23 @@
                 }
             }],
         });
-
-
-
+        //搜索按钮事件
         function btnquery() {
-            $("#table").bootstrapTable('refresh');
+            $("#table").bootstrapTable('refresh', {url: "{{route('category.lists')}}"});
+            //主要解决在不是第一页搜索的情况下 如在第二页搜索搜索不到数据，但其实第一页是有数据的
+            //源码
+            /**
+             * BootstrapTable.prototype.refresh = function (params) {
+                    if (params && params.url) {
+                        this.options.pageNumber = 1;
+                    }
+                    this.initServer(params && params.silent,
+                        params && params.query, params && params.url);
+                    this.trigger('refresh', params);
+                };
+             */
         }
+        //禁用按钮事件
         function disableditem(status, id) {
             swal({
                 title: "确定此操作吗？",
