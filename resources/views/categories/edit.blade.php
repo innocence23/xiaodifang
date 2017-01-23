@@ -42,14 +42,18 @@
     <script>
         angular.module('myModule', [])
             .controller('myController', function ($scope, $http) {
-                $scope.category = {
-                    'id':'{{$model->id}}',
-                    'name':'{{$model->name}}',
-                };
+                $http({
+                    url: "{{route('category.show', $id)}}",
+                    method:'GET',
+                }).then(function successCallback(response) {
+                    $scope.category = response.data;
+                }, function errorCallback(response) {
+                    swal("错误", '服务数据异常', "error");
+                });
                 $scope.save = function () {
                     $http({
-                        url: "{{route('category.update', $model->id)}}",
-                        method:'POST',
+                        url: "{{route('category.update', $id)}}",
+                        method:'PUT',
                         data:{name: $scope.category.name}
                     }).then(function successCallback(response) {
                         swal({

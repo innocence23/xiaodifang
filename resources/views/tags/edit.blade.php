@@ -42,14 +42,19 @@
     <script>
         angular.module('myModule', [])
             .controller('myController', function ($scope, $http) {
-                $scope.tag = {
-                    'id':'{{$model->id}}',
-                    'name':'{{$model->name}}',
-                };
+                $http({
+                    url: "{{route('tag.show', $id)}}",
+                    method:'GET',
+                }).then(function successCallback(response) {
+                    $scope.tag = response.data;
+                }, function errorCallback(response) {
+                    swal("错误", '服务数据异常', "error");
+                });
+
                 $scope.save = function () {
                     $http({
-                        url: "{{route('tag.update', $model->id)}}",
-                        method:'POST',
+                        url: "{{route('tag.update', $id)}}",
+                        method:'PUT',
                         data:{name: $scope.tag.name}
                     }).then(function successCallback(response) {
                         swal({

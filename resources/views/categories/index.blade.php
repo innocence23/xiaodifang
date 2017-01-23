@@ -178,7 +178,6 @@
                     type: 'POST',
                     data: {
                         status: status,
-                        _method: 'PUT',
                         _token: window.Laravel.csrfToken
                     },
                     dataType: 'json',

@@ -53,6 +53,16 @@ class TagController extends Controller
     }
 
     /**
+     * Display the specified resource.
+     * @param Tag $tag
+     * @return mixed
+     */
+    public function show(Tag $tag)
+    {
+        return $tag;
+    }
+
+    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -76,28 +86,27 @@ class TagController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  Tag $tag
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Tag $tag)
     {
-        $model = Tag::find($id);
-        return view('tags.edit', ['model'=>$model]);
+        return view('tags.edit', ['id'=>$tag->id]);
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  Tag $tag
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Tag $tag)
     {
         $this->validate($request, [
-            'name' => 'required|unique:tags,name,'.$id,
+            'name' => 'required|unique:tags,name,'.$tag->id,
         ]);
-        $model = Tag::find($id);
+        $model = $tag;
         $model->name = $request->input('name', '') ;
         $model->updated_by = Auth::id();
         $model->save();
@@ -108,12 +117,12 @@ class TagController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  Tag $tag
      * @return \Illuminate\Http\Response
      */
-    public function disable(Request $request, $id)
+    public function disable(Request $request, Tag $tag)
     {
-        $model = Tag::find($id);
+        $model = $tag;
         $status = $request->input('status', 0) ;
         $model->updated_by = Auth::id();
         $model->status = $status ? 0 : 1 ;

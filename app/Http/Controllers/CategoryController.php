@@ -53,6 +53,16 @@ class CategoryController extends Controller
     }
 
     /**
+     * Display the specified resource.
+     * @param Category $category
+     * @return mixed
+     */
+    public function show(Category $category)
+    {
+        return $category;
+    }
+
+    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -74,30 +84,30 @@ class CategoryController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
+    /**
+     * Show the form for editing the specified resource
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param Category $category
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function edit($id)
+    public function edit(Category $category)
     {
-        $model = Category::find($id);
-        return view('categories.edit', ['model'=>$model]);
+        return view('categories.edit', ['id'=>$category->id]);
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  Category $category
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Category $category)
     {
         $this->validate($request, [
-            'name' => 'required|unique:categories,name,'.$id,
+            'name' => 'required|unique:categories,name,'.$category->id,
         ]);
-        $model = Category::find($id);
+        $model = $category;
         $model->name = $request->input('name', '') ;
         $model->updated_by = Auth::id();
         $model->save();
@@ -108,12 +118,12 @@ class CategoryController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  Category $category
      * @return \Illuminate\Http\Response
      */
-    public function disable(Request $request, $id)
+    public function disable(Request $request, Category $category)
     {
-        $model = Category::find($id);
+        $model = $category;
         $status = $request->input('status', 0) ;
         $model->updated_by = Auth::id();
         $model->status = $status ? 0 : 1 ;
