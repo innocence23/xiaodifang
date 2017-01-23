@@ -6,6 +6,8 @@
 <script src="{{ asset('/dist/angularjs1.6.1/angular.min.js') }}" type="text/javascript"></script>
 <script src="{{ asset('/dist/bootstrap-table/dist/bootstrap-table.min.js') }}" type="text/javascript"></script>
 <script src="{{ asset('/dist/sweetalert/dist/sweetalert.min.js') }}" type="text/javascript"></script>
+<script src="{{ asset('/dist/angular-chosen-1.5.1/dist/chosen.jquery.min.js') }}" type="text/javascript"></script>
+<script src="{{ asset('/dist/angular-chosen-1.5.1/dist/angular-chosen.min.js') }}" type="text/javascript"></script>
 
 <!-- Optionally, you can add Slimscroll and FastClick plugins.
       Both of these plugins are recommended to enhance the

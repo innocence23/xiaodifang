@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\Post;
+use App\Models\Tag;
 use Illuminate\Http\Request;
 use Auth;
 
@@ -59,7 +61,10 @@ class PostController extends Controller
      */
     public function create()
     {
-        return view('posts.create');
+        $categories = Category::cateList();
+        $tags = Tag::tagList();
+        $categories = json_encode($categories);
+        return view('posts.create', ['categories'=>$categories, 'tags'=>$tags ]);
     }
 
     /**
@@ -75,7 +80,7 @@ class PostController extends Controller
             'keyword' => 'required',
             'desc' => 'required',
             'cate_id' => 'required',
-            'pic' => 'required',
+//            'pic' => 'required',
             'content' => 'required',
             'slug' => 'required|unique:posts,slug',
         ]);

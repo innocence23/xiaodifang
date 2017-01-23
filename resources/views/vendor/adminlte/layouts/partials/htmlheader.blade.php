@@ -8,6 +8,7 @@
     <link href="{{ asset('/css/all.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('/dist/bootstrap-table/dist/bootstrap-table.min.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('/dist/sweetalert/dist/sweetalert.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('/dist/angular-chosen-1.5.1/dist/chosen.css') }}" rel="stylesheet" type="text/css" />
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->

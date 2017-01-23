@@ -22,6 +22,14 @@ Route::group(['middleware' => 'auth'], function () {
 
     //Please do not remove this if you want adminlte:route and adminlte:link commands to works correctly.
     #adminlte_routes
+
+//    Route::get('category/lists', 'CategoryController@getLists')->name('category.lists');
+//    Route::put('category/{id}', 'CategoryController@disable')->name('category.disable');
+//    Route::resource('category', 'CategoryController', ['only' =>
+//        ['index', 'store', 'edit', 'show', 'update']
+//    ]);
+
+
     Route::get('category', 'CategoryController@index')->name('category.index');
     Route::post('category', 'CategoryController@store')->name('category.store');
     Route::get('category/{id}/edit', 'CategoryController@edit')->name('category.edit');
