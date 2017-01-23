@@ -71,7 +71,7 @@ class TagController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'name' => 'required|unique:tags,name',
+            'name' => 'required|max:10|unique:tags,name',
         ]);
         $name = $request->input('name', '');
         $model = new Tag();
@@ -104,7 +104,7 @@ class TagController extends Controller
     public function update(Request $request, Tag $tag)
     {
         $this->validate($request, [
-            'name' => 'required|unique:tags,name,'.$tag->id,
+            'name' => 'required|max:10|unique:tags,name,'.$tag->id,
         ]);
         $model = $tag;
         $model->name = $request->input('name', '') ;

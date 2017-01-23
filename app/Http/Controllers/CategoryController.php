@@ -71,7 +71,7 @@ class CategoryController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'name' => 'required|unique:categories,name',
+            'name' => 'required|max:10|unique:categories,name',
         ]);
         $name = $request->input('name', '');
         $model = new Category();
@@ -105,7 +105,7 @@ class CategoryController extends Controller
     public function update(Request $request, Category $category)
     {
         $this->validate($request, [
-            'name' => 'required|unique:categories,name,'.$category->id,
+            'name' => 'required|max:10|unique:categories,name,'.$category->id,
         ]);
         $model = $category;
         $model->name = $request->input('name', '') ;

@@ -203,7 +203,7 @@
                     }).then(function successCallback(response) {
                         swal("成功", '', "success");
                         $('#myModal').modal('hide');
-                        $scope.tag.name = '';//清空输入框
+                        $scope.category.name = '';//清空输入框
                         $("#table").bootstrapTable('refresh');
                     }, function errorCallback(response) {
                         var errorMsg = '';
