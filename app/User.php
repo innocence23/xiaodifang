@@ -30,4 +30,11 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    static public function userList()
+    {
+        $cate = self::orderBy('id')->pluck('name', 'id');
+        return $cate;
+    }
+
 }

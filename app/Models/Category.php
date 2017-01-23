@@ -12,4 +12,12 @@ class Category extends Model
         $cate = self::orderBy('id')->pluck('name', 'id');
         return $cate;
     }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function posts()
+    {
+        return $this->hasMany('App\Models\Post');
+    }
 }

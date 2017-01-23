@@ -23,14 +23,7 @@
                 <div class="panel panel-default">
                     <div class="panel-heading">类别文章</div>
                     <div class="panel-body container-fluid">
-                        <form name="myForm" ng-submit="save()" novalidate>
-                            <div class="form-group"  ng-class="{ 'has-error' : myForm.name.$dirty && myForm.name.$invalid }">
-                                <label for="post-name" class="control-label">名称:</label>
-                                <input type="text" class="form-control" name="name"  id="post-name" required ng-model="post.name">
-                                <p ng-show="myForm.name.$dirty && myForm.name.$invalid" class="help-block">不能为空</p>
-                            </div>
-                            <button type="submit" class="btn btn-primary btn-block" ng-disabled="myForm.name.$invalid">保存</button>
-                        </form>
+                        @include('posts.form')
                     </div>
                 </div>
             </div>
@@ -39,27 +32,56 @@
 @endsection
 
 @section('self-javascript')
+    <script src="/plugins/ckeditor/ckeditor.js" type="text/javascript"></script>
     <script>
-        angular.module('myModule', [])
-            .controller('myController', function ($scope, $http) {
-                $scope.post = {
-                    'id':'{{$model->id}}',
-                    'name':'{{$model->name}}',
-                };
+        CKEDITOR.replace( 'editor1', {
+            language: 'zh-cn',
+        });
+        angular.module('myModule', ['localytics.directives'])
+                .controller('myController', function ($scope, $http) {
+                var editor1 = CKEDITOR.instances.editor1;
+                $http({
+                    url: "{{route('post.catetag')}}",
+                    method:'GET',
+                }).then(function successCallback(response) {
+                    $scope.data = response.data;
+                    editor1.setData(response.data.content);
+                }, function errorCallback(response) {
+                    swal("错误", '服务异常', "error");
+                });
+
+                $http({
+                    url: "{{route('post.show', $id)}}",
+                    method:'GET',
+                }).then(function successCallback(response) {
+                    $scope.post = response.data;
+                }, function errorCallback(response) {
+                    swal("错误", '服务数据异常', "error");
+                });
+
                 $scope.save = function () {
                     $http({
-                        url: "{{route('post.update', $model->id)}}",
+                        url: "{{route('post.update', $id)}}",
                         method:'POST',
-                        data:{name: $scope.post.name}
+                        data:{
+                            _method: 'PUT',
+                            title: $scope.post.title,
+                            keyword: $scope.post.keyword,
+                            desc: $scope.post.desc,
+                            cate_id: $scope.post.cate_id,
+                            slug: $scope.post.slug,
+                            pic: $scope.post.pic,
+                            content: editor1.getData(),
+                            tags: $scope.post.tags,
+                        }
                     }).then(function successCallback(response) {
                         swal({
                             title: "成功!",
                             text: "",
                             type: "success"
-                            }, function(){
-                                $('#myModal').modal('hide');
-                                window.location.href="{{route('post.index')}}";
-                            });
+                        }, function(){
+                            window.location.href="{{route('post.index')}}";
+                        });
                     }, function errorCallback(response) {
                         var errorMsg = '';
                         for (i in response.data) {
@@ -68,6 +90,6 @@
                         swal("错误", errorMsg, "error");
                     });
                 }
-            })
+            });
     </script>
 @endsection

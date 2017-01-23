@@ -16,7 +16,7 @@ Route::get('/', function () {
 });
 
 Route::group(['middleware' => 'auth'], function () {
-    //    Route::get('/link1', function ()    {
+//    Route::get('/link1', function ()    {
 //        // Uses Auth Middleware
 //    });
 
@@ -35,8 +35,9 @@ Route::group(['middleware' => 'auth'], function () {
         ['index', 'store', 'edit', 'update', 'show']
     ]);
 
-    Route::get('post/lists', 'TagController@getLists')->name('post.lists');
-    Route::post('post/{post}', 'TagController@disable')->name('post.disable');
+    Route::get('post/lists', 'PostController@getLists')->name('post.lists');
+    Route::get('post/catetag', 'PostController@cateAndTag')->name('post.catetag');
+    Route::post('post/{post}', 'PostController@disable')->name('post.disable');
     Route::resource('post', 'PostController', ['only' =>
         ['index', 'create', 'store', 'edit', 'update', 'show']
     ]);

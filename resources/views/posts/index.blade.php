@@ -42,6 +42,22 @@
                                     </select>
                                 </div>
                                 <div class="form-group">
+                                    <label for="cate_id" class="control-label">分类:</label>
+                                    <select chosen class="form-control" name="cate_id" id="cate_id" ng-model="post.cate_id"
+                                            placeholder-text-single="'请选择分类'" no-results-text="'未找到'"
+                                            ng-options="s.id as s.name for s in data.categories">
+                                        <option value=""></option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="tags" class="control-label">所属TAG:</label>
+                                    <select chosen class="form-control" name="tags[]" id="tags"
+                                            placeholder-text-single="'请选择TAG'" no-results-text="'未找到'"
+                                            ng-model="post.tags" ng-options="s.id as s.name for s in data.tags">
+                                        <option value=""></option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
                                     <button type="button" class="btn btn-primary" onclick="btnquery()">查询</button>
                                 </div>
                             </form>
@@ -76,6 +92,8 @@
                     sort: params.sort,
                     name: $("#search-name").val(),
                     status: $("#search-status").val(),
+                    cate_id: $("#cate_id").val(),
+                    tags: $("#tags").val(),
                     //请求服务器数据时，你可以通过重写参数的方式添加一些额外的参数，例如 toolbar 中的参数 如果 queryParamsType = 'limit' ,返回参数必须包含
                     //limit, offset, search, sort, order 否则, 需要包含: pageSize, pageNumber, searchText, sortName, sortOrder. 返回false将会终止请求
                 };
@@ -88,10 +106,23 @@
             uniqueId: "id",                     //每一行的唯一标识，一般为主键列
             url: "{{route('post.lists')}}",
             columns: [{
-                field: 'name',
+                field: 'title',
                 title: '名称',
                 valign: 'middle',
                 sortable: true,
+            },{
+                field: 'slug',
+                title: 'Slug',
+                valign: 'middle',
+                sortable: true,
+            },{
+                field: 'cate_name',
+                title: '分类',
+                valign: 'middle',
+            },{
+                field: 'created_by_name',
+                title: '创建人',
+                valign: 'middle',
             }, {
                 field: 'created_at',
                 title: '创建时间',
@@ -111,7 +142,7 @@
                 align: 'center',
                 valign: 'middle',
                 formatter:  function (value, row, index) {
-                    var m = '<a class="btn btn-default" href=" /post/'+row.id+'/edit">修改</a>';
+                    var m = '<a class="btn btn-default" href="/post/'+row.id+'/edit">修改</a>';
                     var e  = value == 1 ?
                         '<button class="btn btn-default" type="button" onclick="disableditem('+value+ ',' + row.id +')">禁用</button> ':
                         '<button class="btn btn-default" type="button" onclick="disableditem('+value+ ',' + row.id +')">启用</button> ';
@@ -167,7 +198,20 @@
             });
         }
 
+        angular.module('myModule', ['localytics.directives'])
+            .controller('myController', function ($scope, $http) {
+                $scope.post = {
+                    cate_id: 0,
+                    tags: 0
+                };
+                $http({
+                    url: "{{route('post.catetag')}}",
+                    method:'GET',
+                }).then(function successCallback(response) {
+                    $scope.data = response.data;
+                }, function errorCallback(response) {
+                    swal("错误", '服务异常', "error");
+                })
+            });
     </script>
-
-
 @endsection

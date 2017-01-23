@@ -136,7 +136,7 @@
                 align: 'center',
                 valign: 'middle',
                 formatter:  function (value, row, index) {
-                    var m = '<a class="btn btn-default" href=" /category/'+row.id+'/edit">修改</a>';
+                    var m = '<a class="btn btn-default" href="/category/'+row.id+'/edit">修改</a>';
                     var e  = value == 1 ?
                         '<button class="btn btn-default" type="button" onclick="disableditem('+value+ ',' + row.id +')">禁用</button> ':
                         '<button class="btn btn-default" type="button" onclick="disableditem('+value+ ',' + row.id +')">启用</button> ';
