@@ -120,6 +120,10 @@
                 title: '分类',
                 valign: 'middle',
             },{
+                field: 'tag_name',
+                title: 'Tags',
+                valign: 'middle',
+            },{
                 field: 'created_by_name',
                 title: '创建人',
                 valign: 'middle',

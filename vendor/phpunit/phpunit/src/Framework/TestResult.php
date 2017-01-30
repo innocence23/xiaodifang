@@ -225,6 +225,10 @@ class PHPUnit_Framework_TestResult implements Countable
             $this->risky[] = new PHPUnit_Framework_TestFailure($test, $t);
             $notifyMethod  = 'addRiskyTest';
 
+            if ($test instanceof PHPUnit_Framework_TestCase) {
+                $test->markAsRisky();
+            }
+
             if ($this->stopOnRisky) {
                 $this->stop();
             }
@@ -307,6 +311,10 @@ class PHPUnit_Framework_TestResult implements Countable
             $e instanceof PHPUnit_Framework_OutputError) {
             $this->risky[] = new PHPUnit_Framework_TestFailure($test, $e);
             $notifyMethod  = 'addRiskyTest';
+
+            if ($test instanceof PHPUnit_Framework_TestCase) {
+                $test->markAsRisky();
+            }
 
             if ($this->stopOnRisky) {
                 $this->stop();
@@ -1231,7 +1239,7 @@ class PHPUnit_Framework_TestResult implements Countable
      */
     public function wasSuccessful()
     {
-        return empty($this->errors) && empty($this->failures) && empty($this->warnings);
+        return empty($this->errors) && empty($this->failures);
     }
 
     /**

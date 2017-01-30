@@ -24,10 +24,7 @@ class PostController extends Controller
         $name = $request->input('name', '');
         $status = $request->input('status', '');
         $cate_id = $request->input('cate_id', '');
-
-//        $tags = $request->input('tags', '');
-//        $tags = explode(':', $tags)[1];
-
+        $tag_id = $request->input('tags', '');
         $where = [];
         if(!empty($name)) {
             $where[] = ['name', 'like', '%'.$name.'%'];
@@ -39,15 +36,23 @@ class PostController extends Controller
             $cate_id = explode(':', $cate_id)[1];
             $where[] = ['cate_id', '=', $cate_id];
         }
-//        if(!empty($name)) {
-//            $where[] = ['name', 'like', '%'.$name.'%'];
-//        }
+
         $curpage = ($offset / $limit) + 1;
 
         //\DB::enableQueryLog();
-        //$res = Post::where($where)->orderby($sort, $order)->paginate($limit, $columns = ['*'], $pageName = 'page', $page = null);
-        $res = Post::where($where)->orderby($sort, $order)->paginate($limit, ['*'], 'page', $curpage);
         //echo  response()->json(\DB::getQueryLog()); die;
+        //$res = Post::where($where)->orderby($sort, $order)->paginate($limit, $columns = ['*'], $pageName = 'page', $page = null);
+        if(!empty($tag_id)) {
+            $tags = explode(':', $tag_id)[1];
+            $tag_post_id = \DB::table('post_tag')->where('tag_id', $tags)->get(['post_id']);
+            $post_id = [];
+            foreach ($tag_post_id as $v) {
+                $post_id[] = $v->post_id;
+            }
+            $res = Post::with('tags')->where($where)->whereIn('id', $post_id)->orderby($sort, $order)->paginate($limit, ['*'], 'page', $curpage);
+        } else {
+            $res = Post::with('tags')->where($where)->orderby($sort, $order)->paginate($limit, ['*'], 'page', $curpage);
+        }
         $total = $res->total();
         $rows = $res->items();
 
@@ -56,10 +61,14 @@ class PostController extends Controller
         $tags = Tag::tagList();
         foreach ($rows as $k=>$v) {
             $rows[$k]['cate_name'] = $categories[$v['cate_id']];
+            //$rows[$k]['cate_name'] = $v->category->name;
+            foreach ($v->tags as $vv) {
+                $rows[$k]['tag_name'] .= $vv->name . ',';
+            }
+            $rows[$k]['tag_name'] = trim($rows[$k]['tag_name'], ',');
+            //$res = Post::with('category')->where($where)->orderby($sort, $order)->paginate($limit, ['*'], 'page', $curpage);
             $rows[$k]['created_by_name'] = $users[$v['created_by']];
-//            $rows[$k]['tag_name'] = $tags[$v['cate_id']];
         }
-//        dd($rows);
         $response = [
             'total' => $total,
             'rows' => $rows
